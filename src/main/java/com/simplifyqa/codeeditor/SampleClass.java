@@ -22,6 +22,10 @@ import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+ 
 /**
  * Hello there!!, please keep the following things in mind while creating custom class
  * Your class should have a public default constructor.
@@ -235,4 +239,68 @@ public class SampleClass
     return valid;
         }
 
+        @SyncAction(uniqueId = "CCL_SyncApp",groupName = "Generic",objectTemplate = @ObjectTemplate(name = TechnologyType.ANDROID,description = "This action belongs to Download the DB File"))
+    public Boolean downloadDBFile()
+    {
+        Boolean valid=true;
+
+       
+        String fileURL = "https://stlatapiuat1.shiptech.carnival.com/css-api/css/dining/DownloadDBFile/SESPOS_SQLITE";
+        String resourcesDir = "/src/main/resources/"; 
+        String fileName = "SESPOS_SQLITE.db";
+ 
+        try {
+            downloadFile(fileURL, resourcesDir, fileName,valid);
+            System.out.println("File downloaded successfully!");
+        } catch (IOException e) {
+            valid=false;
+            e.printStackTrace();
+        }
+
+        return valid;
     }
+
+    public static void downloadFile(String fileURL, String saveDir, String fileName, Boolean valid) throws IOException {
+        URL url = new URL(fileURL);
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        httpConn.setRequestMethod("GET");
+        httpConn.setRequestProperty("x-deviceid", "1");
+        httpConn.setRequestProperty("x-accesstoken", "1");
+        httpConn.setRequestProperty("x-workstationid", "345");
+        httpConn.setRequestProperty("CrewId", "999200");
+      
+        int responseCode = httpConn.getResponseCode();
+ 
+        
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            InputStream inputStream = httpConn.getInputStream();
+ 
+         
+            FileOutputStream outputStream = new FileOutputStream(saveDir + fileName);
+ 
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+ 
+         
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+ 
+            
+            outputStream.close();
+            inputStream.close();
+ 
+            System.out.println("File downloaded to: " + saveDir + fileName);
+        } else {
+            valid=false;
+            throw new IOException("Server returned HTTP response code: " + responseCode);
+        }
+ 
+       
+        httpConn.disconnect();
+    }
+}
+
+    
+
+    
