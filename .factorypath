@@ -1,4 +1,8 @@
 <factorypath>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/simplifyqa/abstract/abstracted-interfaces/1.0/abstracted-interfaces-1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/simplifyqa/androidabstract/abstracted-interfaces-android/1.0/abstracted-interfaces-android-1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/simplifyqa/iosabstract/abstracted-interfaces-ios/1.0/abstracted-interfaces-ios-1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/simplifyqa/apiabstract/abstracted-interfaces-api/1.0/abstracted-interfaces-api-1.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/xerial/sqlite-jdbc/3.39.3.0/sqlite-jdbc-3.39.3.0.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>

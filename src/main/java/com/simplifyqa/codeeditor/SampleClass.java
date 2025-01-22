@@ -1,12 +1,9 @@
 package com.simplifyqa.codeeditor;
 
-import com.codeborne.selenide.conditions.Attribute;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simplifyqa.abstraction.driver.IQAWebDriver;
 import com.simplifyqa.andoidabstract.driver.IQAAndroidDriver;
-import com.simplifyqa.android.base.enums.ATTRIBUTE;
-import com.simplifyqa.android.driver.element.search.FindBy;
 import com.simplifyqa.pluginbase.argument.IArgument;
 import com.simplifyqa.pluginbase.codeeditor.annotations.AutoInjectAndroidDriver;
 import com.simplifyqa.pluginbase.codeeditor.annotations.AutoInjectWebDriver;
@@ -18,10 +15,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -183,7 +178,6 @@ public class SampleClass
             String orderpageFolio = orderFolio.getValue().trim();
             String[] parts = orderpageFolio.split(" ");
             String finalorderpageFolio = parts[0];
-            String Adult = parts.length > 1 ? parts[1] : "";
             String orderpagestateroom = orderstateRoom.getValue().trim();
             String orderpageage = orderAge.getValue().trim();
 
@@ -240,14 +234,28 @@ public class SampleClass
         }
 
         @SyncAction(uniqueId = "CCL_SyncApp",groupName = "Generic",objectTemplate = @ObjectTemplate(name = TechnologyType.ANDROID,description = "This action belongs to Download the DB File"))
-    public Boolean downloadDBFile()
+        public Boolean downloadDBFile()
     {
         Boolean valid=true;
 
        
         String fileURL = "https://stlatapiuat1.shiptech.carnival.com/css-api/css/dining/DownloadDBFile/SESPOS_SQLITE";
-        String resourcesDir = "/src/main/resources/"; 
+        String resourcesDir = "C:/Users/SridharanDhamodaran/AppData/Local/Programs/SimplifyQA/dist/agent/workspaces/2/SailorMate Bar Hybrid/src/main/resources/"; 
         String fileName = "SESPOS_SQLITE.db";
+
+        File file = new File(resourcesDir + fileName);
+
+        // Check if file exists and delete if it does
+        if (file.exists()) {
+            boolean deleted = file.delete();
+            if (deleted) {
+                System.out.println("Existing file deleted successfully.");
+            } else {
+                System.err.println("Failed to delete the existing file.");
+                return false;  // Stop further execution if file deletion fails
+            }
+        }
+
  
         try {
             downloadFile(fileURL, resourcesDir, fileName,valid);
@@ -267,11 +275,8 @@ public class SampleClass
         httpConn.setRequestProperty("x-deviceid", "1");
         httpConn.setRequestProperty("x-accesstoken", "1");
         httpConn.setRequestProperty("x-workstationid", "345");
-        httpConn.setRequestProperty("CrewId", "999200");
-      
-        int responseCode = httpConn.getResponseCode();
- 
-        
+        httpConn.setRequestProperty("CrewId", "999200"); 
+        int responseCode = httpConn.getResponseCode();       
         if (responseCode == HttpURLConnection.HTTP_OK) {
             InputStream inputStream = httpConn.getInputStream();
  
